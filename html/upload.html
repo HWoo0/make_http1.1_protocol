@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>헤헤</h1>
+    <a href="index.html">
+        <button>헤헤</button>
+    </a>
+
+    <form action="/cgi-bin/upload_cgi" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" placeholder="파일" required>
+        <button type="submit">업로드</button>
+    </form>
+
+    <form id="deleteForm">
+        <input type="text" id="fileName" placeholder="삭제할 파일 이름 입력" required>
+        <button type="button" onclick="sendDelete()">삭제</button>
+    </form>
+</body>
+
+<script>
+function sendDelete() {
+  const fileName = document.getElementById('fileName').value;
+
+  const deletePath = "delete_" + fileName;
+
+  fetch(deletePath, {
+  method: 'DELETE',
+})
+  .then(response => response.text())
+  .then(html => {
+    document.body.innerHTML = html;
+  })
+  .catch(error => {
+    alert("삭제 중 오류 발생");
+  });
+}
+
+</script>
+
+</html>
+
+
+
+<!-- 
+
+GET
+1. 파일 존재 
+  - 존재 안하면 404 return
+
+2. 디렉토리인지 아닌지
+  - 디렉토리가 아니라 파일이면
+    ->> 이 파일에 대한 get 처리 
+  - 디렉토리이면
+    index 지시어 확인 : index index1.html index2.html
+    index 지시어 확인하면서 파일인지가 확인되면 해당 파일 가지고 get
+
+    ### 만약에 index지시어가 없거나 순회하면서 파일 찾는 걸 실패했다면
+    (read 유효성, 폴더인지 아닌지, 존재하는지 등등),
+    autoindex 켜져있는지 확인하고(on/off) 
+      - on 이면 폴더 리스트
+      - off 면 403, 404 ....
+
+
+-->

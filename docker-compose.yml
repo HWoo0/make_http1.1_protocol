@@ -1,0 +1,11 @@
+services:
+  siege:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: siege-container
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    command: ["siege","-b", "-c", "255", "-t", "10s", "http://10.11.10.3:8080"]
